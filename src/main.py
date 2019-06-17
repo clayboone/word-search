@@ -1,6 +1,5 @@
 """ Create a word search puzzle."""
 
-import sys
 import random
 
 
@@ -8,6 +7,8 @@ class Puzzle(object):
     def __init__(self, words=None):
         if words is None:
             return
+        elif isinstance(words, str):
+            words = words.split()
         else:
             assert isinstance(words, list)
 
@@ -30,16 +31,15 @@ class Puzzle(object):
 
             self.words.append(word)
 
-            x, y, direction = random.choice(
-                self._get_possible_locations(word))
+            x, y, direction = random.choice(self._get_possible_locations(word))
 
             for index, letter in enumerate(word):
                 if direction == 'acrs':
-                    self.grid[y][x+index] = letter
+                    self.grid[y][x + index] = letter
                 elif direction == 'down':
-                    self.grid[y+index][x] = letter
+                    self.grid[y + index][x] = letter
                 else:  # direction == 'diag'
-                    self.grid[y+index][x+index] = letter
+                    self.grid[y + index][x + index] = letter
 
         # Fill in empty spaces with random letters
         palette = {'sum': 0}
@@ -107,22 +107,22 @@ class Puzzle(object):
         """Return true if a word can populate a given starting point x, y by
         running a given direction d, otherwise false."""
         if d == 'acrs':
-            for i, v in enumerate(range(x, x+len(word))):
+            for i, v in enumerate(range(x, x + len(word))):
                 if self.grid[y][v] is not None and self.grid[y][v] != word[i]:
                     return False
 
             return True
 
         elif d == 'down':
-            for i, v in enumerate(range(y, y+len(word))):
+            for i, v in enumerate(range(y, y + len(word))):
                 if self.grid[v][x] is not None and self.grid[v][x] != word[i]:
                     return False
 
             return True
 
         else:  # 'diag'
-            for yv in range(y, y+len(word)):
-                for i, xv in enumerate(range(x, x+len(word))):
+            for yv in range(y, y + len(word)):
+                for i, xv in enumerate(range(x, x + len(word))):
                     if self.grid[yv][xv] is not None \
                             and self.grid[yv][xv] != word[i]:
                         return False
@@ -131,25 +131,10 @@ class Puzzle(object):
 
 
 def main():
-    puzzle = Puzzle([
-        'hello',
-        'world',
-        'one',
-        'two',
-        'three',
-        'dog',
-        'cat',
-        'briefly',
-        'butterfly',
-        'shindig',
-        'building',
-        'very',
-        'word',
-        'wow',
-    ])
+    puzzle = Puzzle('hello world one two three')
 
     print(puzzle)
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()
