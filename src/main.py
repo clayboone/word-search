@@ -23,7 +23,7 @@ class Puzzle(object):
                 self.grid[y].append(None)
 
         # Fill in words in random locations
-        words = [word.upper() for word in words]
+        words = sorted([word.upper() for word in words], key=len, reverse=True)
 
         for word in words:
             if not self._get_possible_locations(word):
@@ -131,7 +131,7 @@ class Puzzle(object):
 
 
 def main():
-    puzzle = Puzzle('hello world one two three')
+    puzzle = Puzzle('hello world one two three aardvark apple')
 
     print(puzzle)
 
