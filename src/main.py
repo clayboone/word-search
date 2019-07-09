@@ -3,7 +3,21 @@
 import random
 
 
+def timeit(fn):
+    def inner(*args, **kwargs):
+        if __debug__:
+            import datetime
+            start = datetime.datetime.now()
+            ret = fn(*args, **kwargs)
+            print(f'Time: {(datetime.datetime.now() - start).microseconds}')
+            return ret
+        else:
+            return fn(*args, **kwargs)
+    return inner
+
+
 class Puzzle(object):
+    @timeit
     def __init__(self, words=None):
         if words is None:
             return
